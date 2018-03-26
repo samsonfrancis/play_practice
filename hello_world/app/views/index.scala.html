@@ -1,7 +1,14 @@
-@(message: String)(level:Int,items:Seq[String])
+@(message: String)(chats:Seq[Chat])
 
 @main("Welcome to Play") {
 
     <h1>@message</h1>
-    @listContainer(level,items)
+    @chats.map{dateAndChats =>
+        @dateAndChats.dateTime
+        @dateAndChats.items.toSeq.map { item =>
+            <h1>@dateAndChats.occurrence</h1>
+        @listItem(item)
+            <hr/>
+        }
+    }
 }

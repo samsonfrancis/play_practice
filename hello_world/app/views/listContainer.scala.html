@@ -1,8 +1,10 @@
-@(level:Int,items:Seq[String])
+@(header: Html)(level:Int,items:Seq[Item])(footer: Html)
 
 <h@level>Text With Level Header Arg </h@level>
+@header
 <ul id="list@level" style="margin-left: @{5*level}%">
     @items.map { item =>
-        <li>@item</li>
+       @listItem(item)
     }
 </ul>
+@footer
