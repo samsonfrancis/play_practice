@@ -1,0 +1,44 @@
+@(userForm:Form[User])
+
+@main("User Form"){
+    @if(userForm.value.isDefined){
+        <p>Name : @userForm.get.name</p>
+        <p>Age : @userForm.get.age</p>
+        <p>Gender : @if(userForm.get.female == true){Female}else{Male}</p>
+        <p>Email : @userForm.get.email</p>
+        <fieldset>
+            <legend>Address</legend>
+            <Address>
+                <p>Street : @userForm.get.address.street</p>
+                <p>House Number : @userForm.get.address.houseNumber</p>
+                <p>City : @userForm.get.address.city</p>
+                <p>Country : @userForm.get.address.country</p>
+            </Address>
+        </fieldset>
+    }else {
+        <h1 >Enter Your Details</h1>
+        <form action="/userData/save" method="post" enctype="multipart/form-data">
+            @helper.inputText(userForm("name"), '_label -> "Name", '_row -> false, '_suggest -> "SuggestName")
+            @helper.inputText(userForm("age"), '_label -> "Age", '_type -> "number")
+            @helper.checkbox(userForm("female"), '_label -> "Female")
+            @helper.inputText(userForm("email"), '_label -> "Email")
+
+            <fieldset>
+                <legend>Address</legend>
+                @helper.inputText(userForm("address.street"), '_label -> "Street")
+                @helper.inputText(userForm("address.houseNumber"), '_label -> "Houser Number", '_type -> "number")
+                @helper.inputText(userForm("address.city"), '_label -> "City")
+                @helper.select(userForm("address.country"), Seq(
+                    "" -> "---",
+                    "India" -> "IN",
+                    "China" -> "CH"
+                ), '_label -> "Country"
+                )
+            </fieldset>
+
+            <br/>
+            <br/>
+            <input type="submit" value="save"/>
+        </form>
+    }
+}
